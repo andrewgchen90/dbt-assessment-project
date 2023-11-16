@@ -1,6 +1,6 @@
 
-with questionnaires_qa as (
-    select *
+with reviews as (
+    select r.*
     from {{ref('base_bq_reviews')}} r    
     left join {{ref('base_bq_review_questions')}} q
         on r.review_id = q.review_id
@@ -9,4 +9,4 @@ with questionnaires_qa as (
 )
 
 
-select * from questionnaires_qa
+select * from reviews

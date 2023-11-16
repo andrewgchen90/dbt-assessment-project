@@ -3,9 +3,9 @@ with raw_source as (
     select *
     from {{ source('conveyor', 'reviews') }}
 
-),
+)
 
-final as (
+, final as (
 
     select *
     from raw_source
