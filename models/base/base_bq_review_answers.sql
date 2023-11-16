@@ -1,6 +1,13 @@
 with raw_source as (
 
-    select *
+    select 
+        answer_id
+        , question_id
+        , answer_text
+        , email
+        , user_id
+        , created_at
+        , updated_at
         , lead(answer_text,1) over (partition by question_id order by created_at) next_answer_text
         , case when user_id is null then 'Generative AI' else 'User Generated' end as user_type        
     from {{ source('conveyor', 'review_answers') }}
