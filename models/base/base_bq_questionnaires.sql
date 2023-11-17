@@ -7,12 +7,17 @@ with raw_source as (
 
 , final as (
 
-    select due_at
+    select 
+        id as questionnaire_id
+        , created_at
+        , started_at
+        , completed_at
+        , due_at
         , source_type	
         , review_id	
-        , id as questionnaire_id
         , question_count
-        , started_at
+        , questions_completed
+        , hours_spent
         , question_group_import_id
         , program_id
         , workflow_type
@@ -20,12 +25,8 @@ with raw_source as (
         , connection_id
         , currently_responsible
         , deleted_at
-        , created_at
-        , questions_completed
         , notes
         , sla_days
-        , hours_spent
-        , completed_at
         , user_id
         , email	
         , sla_started_at
@@ -39,6 +40,7 @@ with raw_source as (
         , _sdc_batched_at
         , row_number() over (partition by id order by _sdc_batched_at desc) rn
     from raw_source
+    where deleted_at is null
 )
 
 select * 

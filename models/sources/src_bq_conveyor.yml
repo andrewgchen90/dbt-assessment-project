@@ -6,7 +6,6 @@ sources:
     database: raw-data-405216
     tables:
       - name: connections
-        
       - name: programs
       - name: questionnaires
       - name: review_answers
