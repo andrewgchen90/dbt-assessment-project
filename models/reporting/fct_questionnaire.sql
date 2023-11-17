@@ -7,6 +7,7 @@ with joined as (
         , q.created_at
         , q.started_at
         , q.completed_at
+        , q.completed_at-q.started_at as time_to_completion
         , q.questions_completed
         , q.hours_spent
         , q.due_at

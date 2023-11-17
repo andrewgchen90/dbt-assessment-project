@@ -38,9 +38,11 @@ with raw_source as (
         , _sdc_received_at
         , _sdc_sequence
         , _sdc_batched_at
+        -- Getting the recent data of the questionnaire to see how things are currently going
         , row_number() over (partition by id order by _sdc_batched_at desc) rn
     from raw_source
-    where deleted_at is null
+    -- Initially Considered filtering out deleted_at but chose to keep it since we wanted to see all-time data
+    -- where deleted_at is null   
 )
 
 select * 
