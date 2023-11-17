@@ -7,7 +7,15 @@ with raw_source as (
 
 , final as (
 
-    select *
+    select 
+        review_id
+        , canonical_asset_id
+        , program_id
+        , status
+        , user_id
+        , email
+        , created_at
+        , updated_at
     from raw_source
 
 )

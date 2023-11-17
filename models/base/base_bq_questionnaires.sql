@@ -10,7 +10,7 @@ with raw_source as (
     select due_at
         , source_type	
         , review_id	
-        , id	
+        , id as questionnaire_id
         , question_count
         , started_at
         , question_group_import_id

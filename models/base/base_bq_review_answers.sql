@@ -4,11 +4,11 @@ with raw_source as (
         answer_id
         , question_id
         , answer_text
-        , email
-        , user_id
+        , email answer_email
+        , user_id answer_user_id
         , created_at
         , updated_at
-        , lead(answer_text,1) over (partition by question_id order by created_at) next_answer_text
+        , lag(answer_text,1) over (partition by question_id order by created_at) previous_answer_text
         , case when user_id is null then 'Generative AI' else 'User Generated' end as user_type        
     from {{ source('conveyor', 'review_answers') }}
 
@@ -17,7 +17,7 @@ with raw_source as (
 , final as (
 
     select *
-        , case when answer_text = next_answer_text then TRUE else FALSE end as is_duplicate_answer
+        , case when answer_text = previous_answer_text then TRUE else FALSE end as is_duplicate_answer
     from raw_source
 
 )
