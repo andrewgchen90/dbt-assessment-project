@@ -29,7 +29,9 @@ with reviews as (
         , a.user_answer_sequence_desc
         , case when answer_sequence_asc = 1 and user_type = 'Generative AI' and issue is false then 'Confident'
             when answer_sequence_asc = 1 and user_type = 'Generative AI' and issue then 'Not Confident'
-            when answer_sequence_asc is null then 'No Attempt'
+            when answer_sequence_asc is null and issue then 'Not Confident'
+             when answer_sequence_asc is null then 'No Attempt'
+             when answer_sequence_asc = 1 and user_type = 'User Generated' and issue is false then 'No Attempt'
             else null
             end as generative_ai_answer_confidence
     from {{ref('base_bq_reviews')}} r    

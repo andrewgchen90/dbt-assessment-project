@@ -16,8 +16,8 @@ with raw_source as (
         , source_type	
         , review_id	
         , question_count
-        , questions_completed
-        , hours_spent
+        , questions_completed -- Missing data 
+        , hours_spent -- Missing data 
         , question_group_import_id
         , program_id
         , workflow_type
