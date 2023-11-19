@@ -10,6 +10,8 @@ with answers as (
         , previous_answer_text
         , user_type
         , is_duplicate_answer
+        
+        -- Answer Sequence
         , row_number() over (partition by question_id order by created_at) as answer_sequence_asc
         , row_number() over (partition by question_id order by created_at desc) as answer_sequence_desc
         , row_number() over (partition by question_id, answer_user_id order by created_at) as user_answer_sequence_asc
