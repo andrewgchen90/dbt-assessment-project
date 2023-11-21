@@ -1,6 +1,24 @@
 
 
-with joined as (
+with questions_answers_totals as (
+
+    select review_id
+        , count(distinct question_id) as question_total
+        , count(distinct case when issue then question_id else NULL end) as issue_count
+        , count(distinct case when answer_sequence_desc = 1 and user_type = 'Generative AI' then question_id else null end) as ai_generated_accepted_answer_total
+        , count(distinct case when answer_sequence_desc = 1 and user_type = 'User Generated' then question_id else null end) as user_generated_accepted_answer_total
+        , count(distinct case when generative_ai_answer_confidence = 'Confident' then question_id else null end) as ai_generated_confident_answer_total
+        , count(distinct case when generative_ai_answer_confidence = 'Not Confident' then question_id else null end) as ai_generated_not_confident_answer_total
+        , count(distinct case when generative_ai_answer_confidence = 'No Attempt' then question_id else null end) as no_attempt_at_answer_total
+        , count(distinct case when answer_sequence_asc = 1 and user_type = 'Generative AI' then question_id else null end) as attempted_ai_generated_answer_total
+        , count(case when user_type = 'Generative AI' then question_id else null end) as ai_generated_answer_total
+        , count(case when user_type = 'User Generated' then question_id else null end) as user_generated_answer_total        
+    from {{ ref('int_review_question_answer') }}
+    group by 1
+
+)
+
+, joined as (
 
     select q.questionnaire_id
         , q.connection_id
@@ -48,7 +66,7 @@ with joined as (
         , q.approved_count
         , q.completed_count
     from {{ ref('int_questionnaires_most_recent') }} q
-    left join {{ ref('int_review_question_answer') }} r
+    left join questions_answers_totals r
         on q.review_id = r.review_id
     left join {{ ref('int_connections_most_recent') }} c 
         on q.connection_id = c.connection_id

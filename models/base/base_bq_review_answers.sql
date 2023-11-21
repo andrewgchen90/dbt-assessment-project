@@ -24,4 +24,4 @@ with raw_source as (
 
 select * 
 from final
-where not is_duplicate_answer
+where not is_duplicate_answer -- removes duplicate answer

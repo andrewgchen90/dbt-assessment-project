@@ -1,5 +1,6 @@
 
 with answers as (
+
     select answer_id
         , question_id
         , answer_text
@@ -17,6 +18,7 @@ with answers as (
         , row_number() over (partition by question_id, answer_user_id order by created_at) as user_answer_sequence_asc
         , row_number() over (partition by question_id, answer_user_id order by created_at desc) as user_answer_sequence_desc
     from {{ref('base_bq_review_answers')}} r   
+    
 )
 
 select *
