@@ -1,6 +1,7 @@
 
 
 with questionnaires as (
+
     select questionnaire_id
         , created_at
         , started_at
@@ -51,6 +52,7 @@ with questionnaires as (
         , _sdc_batched_at
     from {{ref('base_bq_questionnaires')}} r   
     where rn=1  -- grab only the most recent version based on stitch batched at of the questionnaire
+    
 )
 
 select *

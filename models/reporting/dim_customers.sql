@@ -17,6 +17,14 @@ select c.connection_id
         , c.bypass_justification
         , c.auto_approve_requests
         , c.customer_sequence
+
+        -- Created at fields
+        , connection_created_year
+        , connection_created_quarter
+        , connection_created_month
+        , connection_created_quarter_year
+
+        -- Counts
         , count(distinct c.connection_id) as connection_customer_count
         , count(distinct case when q.processing_count >= 1 then c.connection_id else NULL end) as processing_customer_count
         , count(distinct case when q.started_count >= 1 then c.connection_id else NULL end) as started_customer_count
@@ -31,4 +39,4 @@ select c.connection_id
 from customers c
 left join {{ ref('int_questionnaires_most_recent') }} q
     on c.connection_id = q.connection_id
-group by 1,2,3,4,5,6,7,8,9,10,11,12
+group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16

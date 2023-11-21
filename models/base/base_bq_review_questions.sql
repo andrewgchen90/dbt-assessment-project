@@ -16,7 +16,7 @@ with raw_source as (
     , issue_description
     , position as question_position
     , status as question_status
-    , created_at
+    , created_at as question_created_at
     , updated_at
     from raw_source
 
